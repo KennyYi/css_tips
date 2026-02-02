@@ -125,6 +125,118 @@ export const effects: Effect[] = [
   </div>
 </div>`
   },
+  {
+    id: 'custom-radio',
+    title: 'Custom Radio Buttons',
+    description: 'Styled radio buttons with custom appearance.',
+    category: 'easy',
+    initialCode: `.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-wrapper input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #3498db;
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+  transition: 0.2s;
+}
+
+.radio-wrapper input[type="radio"]:checked + .radio-custom {
+  border-color: #3498db;
+}
+
+.radio-wrapper input[type="radio"]:checked + .radio-custom::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #3498db;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.preview-container {
+  background: #ecf0f1;
+}`,
+    htmlSnippet: `<div class="radio-group">
+  <label class="radio-wrapper">
+    <input type="radio" name="option" checked>
+    <span class="radio-custom"></span>
+    <span>Option 1</span>
+  </label>
+  <label class="radio-wrapper">
+    <input type="radio" name="option">
+    <span class="radio-custom"></span>
+    <span>Option 2</span>
+  </label>
+</div>`
+  },
+  {
+    id: 'custom-checkbox-styled',
+    title: 'Styled Checkbox',
+    description: 'Custom checkbox with checkmark animation.',
+    category: 'easy',
+    initialCode: `.checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #555;
+  border-radius: 4px;
+  margin-right: 8px;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked + .checkbox-custom {
+  background: #2ecc71;
+  border-color: #2ecc71;
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked + .checkbox-custom::after {
+  content: '✓';
+  position: absolute;
+  top: -2px;
+  left: 4px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.preview-container {
+  background: #fff;
+}`,
+    htmlSnippet: `<label class="checkbox-wrapper">
+  <input type="checkbox" checked>
+  <span class="checkbox-custom"></span>
+  <span>Accept terms and conditions</span>
+</label>`
+  },
 
   // NORMAL
   {
@@ -324,6 +436,271 @@ export const effects: Effect[] = [
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
   <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>More content to make it scroll...</p>
+</div>`
+  },
+  {
+    id: 'css-accordion',
+    title: 'Pure CSS Accordion',
+    description: 'Expandable accordion using checkbox hack.',
+    category: 'normal',
+    initialCode: `.accordion-item {
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.accordion-input {
+  display: none;
+}
+
+.accordion-label {
+  display: block;
+  padding: 15px;
+  background: #f7f7f7;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+}
+
+.accordion-label:hover {
+  background: #e8e8e8;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+}
+
+.accordion-content-inner {
+  padding: 15px;
+}
+
+.accordion-input:checked ~ .accordion-content {
+  max-height: 200px;
+}
+
+.preview-container {
+  background: #f0f0f0;
+}`,
+    htmlSnippet: `<div class="accordion-item">
+  <input type="checkbox" id="acc1" class="accordion-input" checked>
+  <label for="acc1" class="accordion-label">Section 1</label>
+  <div class="accordion-content">
+    <div class="accordion-content-inner">
+      This is the content for section 1.
+    </div>
+  </div>
+</div>
+<div class="accordion-item">
+  <input type="checkbox" id="acc2" class="accordion-input">
+  <label for="acc2" class="accordion-label">Section 2</label>
+  <div class="accordion-content">
+    <div class="accordion-content-inner">
+      This is the content for section 2.
+    </div>
+  </div>
+</div>`
+  },
+  {
+    id: 'css-tabs',
+    title: 'Pure CSS Tabs',
+    description: 'Tab navigation using radio buttons.',
+    category: 'normal',
+    initialCode: `.tabs {
+  width: 100%;
+}
+
+.tab-input {
+  display: none;
+}
+
+.tab-labels {
+  display: flex;
+  border-bottom: 2px solid #ddd;
+}
+
+.tab-label {
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  margin-right: 2px;
+  transition: 0.2s;
+}
+
+.tab-label:hover {
+  background: #e0e0e0;
+}
+
+.tab-input:checked + .tab-label {
+  background: white;
+  border-bottom: 2px solid white;
+  margin-bottom: -2px;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+#tab1:checked ~ .tab-contents #content1,
+#tab2:checked ~ .tab-contents #content2,
+#tab3:checked ~ .tab-contents #content3 {
+  display: block;
+}
+
+.preview-container {
+  background: #f5f5f5;
+}`,
+    htmlSnippet: `<div class="tabs">
+  <div class="tab-labels">
+    <input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+    <label for="tab1" class="tab-label">Tab 1</label>
+    
+    <input type="radio" name="tabs" id="tab2" class="tab-input">
+    <label for="tab2" class="tab-label">Tab 2</label>
+    
+    <input type="radio" name="tabs" id="tab3" class="tab-input">
+    <label for="tab3" class="tab-label">Tab 3</label>
+  </div>
+  
+  <div class="tab-contents">
+    <div id="content1" class="tab-content">Content for Tab 1</div>
+    <div id="content2" class="tab-content">Content for Tab 2</div>
+    <div id="content3" class="tab-content">Content for Tab 3</div>
+  </div>
+</div>`
+  },
+  {
+    id: 'hover-tooltip',
+    title: 'Hover Tooltip',
+    description: 'Tooltip that appears on hover.',
+    category: 'normal',
+    initialCode: `.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  padding: 10px 20px;
+  background: #3498db;
+  color: white;
+  border-radius: 4px;
+  cursor: help;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  transition: opacity 0.3s;
+  font-size: 14px;
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.tooltip-wrapper:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.preview-container {
+  background: #ecf0f1;
+  padding-top: 80px !important;
+}`,
+    htmlSnippet: `<div class="tooltip-wrapper">
+  <div class="tooltip-trigger">Hover over me</div>
+  <span class="tooltip-text">This is a tooltip message!</span>
+</div>`
+  },
+  {
+    id: 'dropdown-menu',
+    title: 'Dropdown Menu',
+    description: 'Hover-activated dropdown menu.',
+    category: 'normal',
+    initialCode: `.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: 0.2s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropdown-button {
+  background-color: #45a049;
+}
+
+.preview-container {
+  background: #fff;
+  padding-top: 20px !important;
+}`,
+    htmlSnippet: `<div class="dropdown">
+  <div class="dropdown-button">Menu ▼</div>
+  <div class="dropdown-content">
+    <a href="#">Option 1</a>
+    <a href="#">Option 2</a>
+    <a href="#">Option 3</a>
+  </div>
 </div>`
   },
 
@@ -529,6 +906,89 @@ export const effects: Effect[] = [
   Glitch
   <span aria-hidden="true">Glitch</span>
 </h1>`
+  },
+  {
+    id: 'css-modal',
+    title: 'Pure CSS Modal',
+    description: 'Modal dialog using :target pseudo-class.',
+    category: 'hard',
+    initialCode: `.modal-link {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.modal-link:hover {
+  background: #2980b9;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.modal:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 400px;
+  position: relative;
+  transform: scale(0.8);
+  transition: transform 0.3s;
+}
+
+.modal:target .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  color: #333;
+  font-size: 24px;
+  text-decoration: none;
+  line-height: 30px;
+  text-align: center;
+}
+
+.modal-close:hover {
+  color: #e74c3c;
+}
+
+.preview-container {
+  background: #ecf0f1;
+}`,
+    htmlSnippet: `<a href="#modal1" class="modal-link">Open Modal</a>
+
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <a href="#" class="modal-close">×</a>
+    <h2>Modal Title</h2>
+    <p>This is a pure CSS modal using the :target pseudo-class!</p>
+  </div>
+</div>`
   },
 
   // ANIMATION
@@ -762,5 +1222,129 @@ export const effects: Effect[] = [
   <h3>Fade In Content</h3>
   <p>I smoothly appear from below!</p>
 </div>`
+  },
+  {
+    id: 'progress-bar-animation',
+    title: 'Progress Bar',
+    description: 'Animated progress bar with fill animation.',
+    category: 'animation',
+    initialCode: `.progress-container {
+  width: 300px;
+  height: 30px;
+  background: #e0e0e0;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  animation: fillBar 2s ease-out forwards;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+@keyframes fillBar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 75%;
+  }
+}
+
+.preview-container {
+  background: #f5f5f5;
+}`,
+    htmlSnippet: `<div class="progress-container">
+  <div class="progress-bar">75%</div>
+</div>`
+  },
+  {
+    id: 'slide-in-menu',
+    title: 'Slide-in Menu',
+    description: 'Hamburger menu with slide-in animation.',
+    category: 'animation',
+    initialCode: `.menu-toggle {
+  display: none;
+}
+
+.hamburger {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.hamburger-line {
+  width: 30px;
+  height: 3px;
+  background: white;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: #2c3e50;
+  transition: left 0.3s ease;
+  padding: 60px 20px 20px;
+}
+
+.menu-toggle:checked ~ .side-menu {
+  left: 0;
+}
+
+.menu-toggle:checked ~ .hamburger .line1 {
+  transform: rotate(-45deg) translate(-6px, 6px);
+}
+
+.menu-toggle:checked ~ .hamburger .line2 {
+  opacity: 0;
+}
+
+.menu-toggle:checked ~ .hamburger .line3 {
+  transform: rotate(45deg) translate(-6px, -6px);
+}
+
+.menu-item {
+  padding: 15px;
+  color: white;
+  text-decoration: none;
+  display: block;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: #34495e;
+  padding-left: 25px;
+}
+
+.preview-container {
+  background: #34495e;
+  position: relative !important;
+}`,
+    htmlSnippet: `<input type="checkbox" id="menu-toggle" class="menu-toggle">
+<label for="menu-toggle" class="hamburger">
+  <div class="hamburger-line line1"></div>
+  <div class="hamburger-line line2"></div>
+  <div class="hamburger-line line3"></div>
+</label>
+<nav class="side-menu">
+  <a href="#" class="menu-item">Home</a>
+  <a href="#" class="menu-item">About</a>
+  <a href="#" class="menu-item">Services</a>
+  <a href="#" class="menu-item">Contact</a>
+</nav>`
   }
 ];
