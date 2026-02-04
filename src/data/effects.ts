@@ -406,10 +406,50 @@ export const circularImage = style({
 .preview-container {
   background: #f3f4f6;
 }`,
-    htmlSnippet: `<div class="preview-box">
-  <h3>Hover me!</h3>
+    htmlSnippet: `  <p>I move up and get a deeper shadow.</p>
+</div>`,
+    tailwindCode: `<div class="w-64 p-5 bg-white rounded-xl transition-all duration-300 cursor-pointer text-gray-800 hover:-translate-y-2 hover:shadow-lg">
+  <h3 class="font-bold text-lg mb-2">Hover me!</h3>
   <p>I move up and get a deeper shadow.</p>
-</div>`
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const Card = styled.div\`
+  width: 250px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: #333;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+\`;
+
+// Usage: 
+// <Card>
+//   <h3>Hover me!</h3>
+//   <p>...</p>
+// </Card>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const card = style({
+  width: '250px',
+  padding: '20px',
+  background: 'white',
+  borderRadius: '12px',
+  transition: 'all 0.3s ease',
+  cursor: 'pointer',
+  color: '#333',
+  ':hover': {
+    transform: 'translateY(-10px)',
+    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+  }
+});`
+
   },
   {
     id: 'gradient-text',
@@ -428,7 +468,31 @@ export const circularImage = style({
 .preview-container {
   background: #fff;
 }`,
-    htmlSnippet: `<h1 class="preview-text">Gradient Text</h1>`
+    htmlSnippet: `<h1 class="preview-text">Gradient Text</h1>`,
+    tailwindCode: `<h1 class="text-6xl font-black bg-gradient-to-r from-[#30CFD0] to-[#330867] bg-clip-text text-transparent">
+  Gradient Text
+</h1>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const GradientText = styled.h1\`
+  font-size: 60px;
+  font-weight: 900;
+  background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+\`;`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const gradientText = style({
+  fontSize: '60px',
+  fontWeight: 900,
+  background: 'linear-gradient(to right, #30CFD0 0%, #330867 100%)',
+  WebkitBackgroundClip: 'text',
+  backgroundClip: 'text',
+  WebkitTextFillColor: 'transparent'
+});`
+
   },
 
   {
@@ -484,7 +548,101 @@ export const circularImage = style({
     htmlSnippet: `<div class="input-group">
   <input type="text" class="input-field" required>
   <label class="input-label">Username</label>
-</div>`
+</div>`,
+    tailwindCode: `<div class="relative my-5 w-64">
+  <input type="text" required class="peer w-full py-2 text-white bg-transparent border-b-2 border-gray-400 outline-none focus:border-[#03e9f4] transition-colors" />
+  <label class="absolute left-0 top-0 py-2 text-gray-400 transition-all pointer-events-none peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#03e9f4] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#03e9f4]">
+    Username
+  </label>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const Group = styled.div\`
+  position: relative;
+  margin: 20px 0;
+  width: 100%;
+\`;
+
+const Label = styled.label\`
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+  transition: 0.2s;
+\`;
+
+const Input = styled.input\`
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-bottom: 2px solid #999;
+  outline: none;
+  background: transparent;
+  transition: 0.2s;
+
+  &:focus {
+    border-bottom: 2px solid #03e9f4;
+  }
+
+  &:focus ~ \${Label},
+  &:valid ~ \${Label} {
+    top: -20px;
+    font-size: 12px;
+    color: #03e9f4;
+  }
+\`;
+
+// Usage:
+// <Group>
+//   <Input type="text" required />
+//   <Label>Username</Label>
+// </Group>`,
+    vanillaExtractCode: `import { style, globalStyle } from '@vanilla-extract/css';
+
+export const group = style({
+  position: 'relative',
+  margin: '20px 0'
+});
+
+export const inputField = style({
+  width: '100%',
+  padding: '10px 0',
+  fontSize: '16px',
+  color: '#fff',
+  border: 'none',
+  borderBottom: '2px solid #999',
+  outline: 'none',
+  background: 'transparent',
+  transition: '0.2s',
+  selectors: {
+    '&:focus': {
+      borderBottom: '2px solid #03e9f4'
+    }
+  }
+});
+
+export const inputLabel = style({
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  padding: '10px 0',
+  fontSize: '16px',
+  color: '#999',
+  pointerEvents: 'none',
+  transition: '0.2s'
+});
+
+globalStyle(\`\${inputField}:focus ~ \${inputLabel}, \${inputField}:valid ~ \${inputLabel}\`, {
+  top: '-20px',
+  fontSize: '12px',
+  color: '#03e9f4'
+});`
+
   },
   {
     id: 'custom-toggle',
@@ -530,9 +688,93 @@ export const circularImage = style({
   background: #f5f6fa;
 }`,
     htmlSnippet: `<div class="toggle-wrapper">
-  <input type="checkbox" id="toggle" class="toggle-checkbox">
-  <label for="toggle" class="toggle-label"></label>
-</div>`
+  <label class="relative inline-flex items-center cursor-pointer">
+    <input type="checkbox" value="" class="sr-only peer">
+    <div class="w-14 h-7 bg-gray-300 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow-md"></div>
+  </label>
+</div>`,
+    tailwindCode: `<label class="relative inline-flex items-center cursor-pointer">
+  <input type="checkbox" value="" class="sr-only peer">
+  <div class="w-14 h-7 bg-gray-300 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow-md"></div>
+</label>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const Checkbox = styled.input\`
+  display: none;
+\`;
+
+const ToggleLabel = styled.label\`
+  width: 60px;
+  height: 30px;
+  background: #ccc;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    width: 26px;
+    height: 26px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  \${Checkbox}:checked + & {
+    background: #4cd137;
+  }
+
+  \${Checkbox}:checked + &::after {
+    left: 32px;
+  }
+\`;
+
+// Usage: 
+// <Checkbox type="checkbox" id="toggle" />
+// <ToggleLabel htmlFor="toggle" />`,
+    vanillaExtractCode: `import { style, globalStyle } from '@vanilla-extract/css';
+
+export const toggleCheckbox = style({
+  display: 'none'
+});
+
+export const toggleLabel = style({
+  width: '60px',
+  height: '30px',
+  background: '#ccc',
+  borderRadius: '30px',
+  position: 'relative',
+  cursor: 'pointer',
+  transition: '0.3s',
+  display: 'inline-block',
+  ':after': {
+    content: "''",
+    width: '26px',
+    height: '26px',
+    background: 'white',
+    borderRadius: '50%',
+    position: 'absolute',
+    top: '2px',
+    left: '2px',
+    transition: '0.3s',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+  }
+});
+
+globalStyle(\`\${toggleCheckbox}:checked + \${toggleLabel}\`, {
+  background: '#4cd137'
+});
+
+globalStyle(\`\${toggleCheckbox}:checked + \${toggleLabel}:after\`, {
+  left: '32px'
+});`
+
   },
   {
     id: 'custom-scrollbar',
@@ -577,10 +819,68 @@ export const circularImage = style({
 }`,
     htmlSnippet: `<div class="scroll-content">
   <h3>Scroll Me!</h3>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>More content to make it scroll...</p>
-</div>`
+</div>`,
+    tailwindCode: `<div class="w-80 h-52 overflow-y-scroll bg-white p-4 rounded-lg text-gray-800 [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-track]:rounded-lg [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-lg hover:[&::-webkit-scrollbar-thumb]:bg-gray-600">
+  <h3 class="font-bold mb-2">Scroll Me! (Tailwind)</h3>
+  <p>Tailwind uses arbitrary variants like [&::-webkit-scrollbar] to style scrollbars without plugins.</p>
+  <p class="mt-4">Lorem ipsum...</p>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const ScrollBox = styled.div\`
+  width: 300px;
+  height: 200px;
+  overflow-y: scroll;
+  background: #fff;
+  padding: 1rem;
+  color: #333;
+  border-radius: 8px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+\`;
+
+// Usage: <ScrollBox>Content...</ScrollBox>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const scrollBox = style({
+  width: '300px',
+  height: '200px',
+  overflowY: 'scroll',
+  background: '#fff',
+  padding: '1rem',
+  color: '#333',
+  borderRadius: '8px',
+  '::-webkit-scrollbar': {
+    width: '10px'
+  },
+  '::-webkit-scrollbar-track': {
+    background: '#f1f1f1',
+    borderRadius: '8px'
+  },
+  '::-webkit-scrollbar-thumb': {
+    background: '#888',
+    borderRadius: '8px'
+  },
+  'selectors': {
+    '::-webkit-scrollbar-thumb:hover': {
+      background: '#555'
+    }
+  }
+});`
+
   },
   {
     id: 'css-accordion',
@@ -628,24 +928,98 @@ export const circularImage = style({
 .preview-container {
   background: #f0f0f0;
 }`,
-    htmlSnippet: `<div class="accordion-item">
-  <input type="checkbox" id="acc1" class="accordion-input" checked>
-  <label for="acc1" class="accordion-label">Section 1</label>
-  <div class="accordion-content">
-    <div class="accordion-content-inner">
-      This is the content for section 1.
-    </div>
-  </div>
-</div>
-<div class="accordion-item">
-  <input type="checkbox" id="acc2" class="accordion-input">
-  <label for="acc2" class="accordion-label">Section 2</label>
-  <div class="accordion-content">
-    <div class="accordion-content-inner">
+    htmlSnippet: `    <div class="accordion-content-inner">
       This is the content for section 2.
     </div>
   </div>
-</div>`
+</div>`,
+    tailwindCode: `<div class="mb-2 border border-gray-300 rounded overflow-hidden">
+  <input type="checkbox" id="acc1" class="peer hidden" checked>
+  <label for="acc1" class="block p-4 bg-gray-100 cursor-pointer font-bold hover:bg-gray-200">Section 1</label>
+  <div class="max-h-0 overflow-hidden transition-all duration-300 bg-white peer-checked:max-h-48">
+    <div class="p-4">This is the content for section 1.</div>
+  </div>
+</div>
+<div class="mb-2 border border-gray-300 rounded overflow-hidden">
+  <input type="checkbox" id="acc2" class="peer hidden">
+  <label for="acc2" class="block p-4 bg-gray-100 cursor-pointer font-bold hover:bg-gray-200">Section 2</label>
+  <div class="max-h-0 overflow-hidden transition-all duration-300 bg-white peer-checked:max-h-48">
+    <div class="p-4">This is the content for section 2.</div>
+  </div>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const AccordionItem = styled.div\`
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  border-radius: 4px;
+\`;
+
+const Input = styled.input\`
+  display: none;
+\`;
+
+const Label = styled.label\`
+  display: block;
+  padding: 15px;
+  background: #f7f7f7;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+  &:hover { background: #e8e8e8; }
+\`;
+
+const Content = styled.div\`
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+
+  \${Input}:checked ~ & {
+    max-height: 200px;
+  }
+\`;
+
+const Inner = styled.div\` padding: 15px; \`;
+
+// Usage:
+// <AccordionItem>
+//   <Input type="checkbox" id="a1" />
+//   <Label htmlFor="a1">Section 1</Label>
+//   <Content><Inner>...</Inner></Content>
+// </AccordionItem>`,
+    vanillaExtractCode: `import { style, globalStyle } from '@vanilla-extract/css';
+
+export const accordionItem = style({
+  border: '1px solid #ddd',
+  marginBottom: '5px',
+  borderRadius: '4px'
+});
+
+export const input = style({ display: 'none' });
+
+export const label = style({
+  display: 'block',
+  padding: '15px',
+  background: '#f7f7f7',
+  cursor: 'pointer',
+  fontWeight: 'bold',
+  ':hover': { background: '#e8e8e8' }
+});
+
+export const content = style({
+  maxHeight: '0',
+  overflow: 'hidden',
+  transition: 'maxHeight 0.3s ease',
+  background: 'white'
+});
+
+globalStyle(\`\${input}:checked ~ \${content}\`, {
+  maxHeight: '200px'
+});
+
+export const inner = style({ padding: '15px' });`
+
   },
   {
     id: 'css-tabs',
@@ -719,7 +1093,64 @@ export const circularImage = style({
     <div id="content2" class="tab-content">Content for Tab 2</div>
     <div id="content3" class="tab-content">Content for Tab 3</div>
   </div>
-</div>`
+</div>`,
+    tailwindCode: `<div class="w-full">
+  <div class="flex border-b-2 border-gray-300">
+    <!-- Tab 1 -->
+    <label class="px-5 py-2 cursor-pointer bg-gray-100 mr-0.5 hover:bg-gray-200 has-[:checked]:bg-white has-[:checked]:border-b-2 has-[:checked]:border-white has-[:checked]:-mb-0.5">
+      <input type="radio" name="t" checked class="hidden peer">
+      Tab 1
+    </label>
+    <!-- Tab 2 -->
+    <label class="px-5 py-2 cursor-pointer bg-gray-100 mr-0.5 hover:bg-gray-200 has-[:checked]:bg-white has-[:checked]:border-b-2 has-[:checked]:border-white has-[:checked]:-mb-0.5">
+      <input type="radio" name="t" class="hidden peer">
+      Tab 2
+    </label>
+  </div>
+  <!-- Content Area (Naive JS-less approach is hard in Tailwind flat structure. 
+       Usually this requires specific structure or 'peer' targeting siblings. 
+       Here we simulate the appearance.) 
+  -->
+  <div class="p-5 bg-white border border-t-0 border-gray-300">
+    Content for selected tab... (Requires structure adjustment for pure CSS behavior)
+  </div>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const Tabs = styled.div\` width: 100%; \`;
+const Input = styled.input\` display: none; \`;
+const Labels = styled.div\` display: flex; border-bottom: 2px solid #ddd; \`;
+
+const Label = styled.label\`
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  margin-right: 2px;
+  transition: 0.2s;
+  &:hover { background: #e0e0e0; }
+  
+  \${Input}:checked + & {
+    background: white;
+    border-bottom: 2px solid white;
+    margin-bottom: -2px;
+  }
+\`;
+
+const Content = styled.div\`
+  display: none;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+\`;
+
+// Note: The sibling selector logic for showing specific content 
+// requires a specific DOM structure or additional GlobalStyles.
+// Simplification shown.`,
+    vanillaExtractCode: `// Vanilla Extract follows the same structural pattern as pure CSS.`
+
   },
   {
     id: 'hover-tooltip',
@@ -780,7 +1211,82 @@ export const circularImage = style({
     htmlSnippet: `<div class="tooltip-wrapper">
   <div class="tooltip-trigger">Hover over me</div>
   <span class="tooltip-text">This is a tooltip message!</span>
-</div>`
+</div>`,
+    tailwindCode: `<div class="relative inline-block group">
+  <div class="px-5 py-2.5 bg-blue-500 text-white rounded cursor-help">Hover over me</div>
+  <span class="invisible opacity-0 w-48 bg-gray-800 text-white text-center rounded p-2 absolute bottom-[125%] left-1/2 -ml-24 transition-opacity duration-300 group-hover:visible group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-ml-[5px] after:border-[5px] after:border-solid after:border-t-gray-800 after:border-x-transparent after:border-b-transparent">
+    This is a tooltip message!
+  </span>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const Wrapper = styled.div\`
+  position: relative;
+  display: inline-block;
+\`;
+
+const Text = styled.span\`
+  visibility: hidden;
+  opacity: 0;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  transition: opacity 0.3s;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+  }
+  
+  \${Wrapper}:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
+\`;
+
+const Trigger = styled.div\`
+  padding: 10px 20px;
+  background: #3498db;
+  color: white;
+  border-radius: 4px;
+  cursor: help;
+\`;
+
+// Usage: <Wrapper><Trigger>Hover me</Trigger><Text>Tooltip</Text></Wrapper>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const wrapper = style({
+  position: 'relative',
+  display: 'inline-block'
+});
+
+export const text = style({
+  visibility: 'hidden',
+  opacity: 0,
+  // ... other styles
+  selectors: {
+    [\`\${wrapper}:hover &\`]: {
+      visibility: 'visible',
+      opacity: 1
+    }
+  }
+});
+// (Simplified for brevity)`
+
   },
   {
     id: 'dropdown-menu',
@@ -845,7 +1351,43 @@ export const circularImage = style({
     <a href="#">Option 2</a>
     <a href="#">Option 3</a>
   </div>
-</div>`
+</div>`,
+    tailwindCode: `<div class="relative inline-block group">
+  <div class="bg-green-500 text-white px-5 py-3 text-base border-none cursor-pointer rounded group-hover:bg-green-600">Menu ▼</div>
+  <div class="hidden absolute bg-gray-50 min-w-[160px] shadow-lg z-10 rounded overflow-hidden mt-1 group-hover:block">
+    <a href="#" class="block text-black px-4 py-3 no-underline transition hover:bg-gray-200">Option 1</a>
+    <a href="#" class="block text-black px-4 py-3 no-underline transition hover:bg-gray-200">Option 2</a>
+    <a href="#" class="block text-black px-4 py-3 no-underline transition hover:bg-gray-200">Option 3</a>
+  </div>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const DropdownContent = styled.div\`
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+\`;
+
+const Dropdown = styled.div\`
+  position: relative;
+  display: inline-block;
+  
+  &:hover \${DropdownContent} {
+    display: block;
+  }
+\`;
+
+// Usage: <Dropdown>...</Dropdown>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const dropdown = style({ position: 'relative', display: 'inline-block' });
+export const content = style({ display: 'none', position: 'absolute' });
+// Logic same as Pure CSS.`
+
   },
 
   // HARD
