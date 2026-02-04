@@ -1,12 +1,17 @@
 export type Category = 'easy' | 'normal' | 'hard' | 'animation';
+export type CSSFormat = 'pure-css' | 'tailwind' | 'styled-components' | 'vanilla-extract';
 
 export interface Effect {
   id: string;
   title: string;
   description: string;
   category: Category;
-  initialCode: string;
+  initialCode: string; // Pure CSS version
   htmlSnippet: string;
+  // Optional format-specific versions
+  tailwindCode?: string;
+  styledComponentCode?: string;
+  vanillaExtractCode?: string;
 }
 
 export const effects: Effect[] = [
@@ -32,7 +37,43 @@ export const effects: Effect[] = [
 .preview-container {
   background: #fff;
 }`,
-    htmlSnippet: `<div class="preview-box">Border Box</div>`
+    htmlSnippet: `<div class="preview-box">Border Box</div>`,
+    tailwindCode: `<div class="w-52 h-52 bg-gray-100 border-4 border-dashed border-red-400 rounded-2xl flex justify-center items-center text-gray-800 font-bold">
+  Border Box
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const BorderBox = styled.div\`
+  width: 200px;
+  height: 200px;
+  background-color: #f0f0f0;
+  border: 4px dashed #ff6b6b;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-weight: bold;
+\`;
+
+// Usage: <BorderBox>Border Box</BorderBox>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const borderBox = style({
+  width: '200px',
+  height: '200px',
+  backgroundColor: '#f0f0f0',
+  border: '4px dashed #ff6b6b',
+  borderRadius: '20px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: '#333',
+  fontWeight: 'bold'
+});
+
+// Usage: <div className={borderBox}>Border Box</div>`
+
   },
   {
     id: 'shadow-box',
@@ -50,7 +91,33 @@ export const effects: Effect[] = [
 .preview-container {
   background: #eee;
 }`,
-    htmlSnippet: `<div class="preview-box">I have a shadow</div>`
+    htmlSnippet: `<div class="preview-box">I have a shadow</div>`,
+    tailwindCode: `<div class="bg-white p-8 rounded-lg shadow-2xl text-gray-800">
+  I have a shadow
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const ShadowBox = styled.div\`
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  color: #333;
+\`;
+
+// Usage: <ShadowBox>I have a shadow</ShadowBox>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const shadowBox = style({
+  background: 'white',
+  padding: '2rem',
+  borderRadius: '8px',
+  boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+  color: '#333'
+});
+
+// Usage: <div className={shadowBox}>I have a shadow</div>`
+
   },
 
   // NORMAL
@@ -76,7 +143,54 @@ export const effects: Effect[] = [
   width: 100%;
   height: 100%;
 }`,
-    htmlSnippet: `<div class="preview-box">I am Centered!</div>`
+    htmlSnippet: `<div class="preview-box">I am Centered!</div>`,
+    tailwindCode: `<div class="flex justify-center items-center w-full h-full bg-gray-200">
+  <div class="bg-red-500 text-white p-8 rounded-lg font-bold">
+    I am Centered!
+  </div>
+</div>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const Container = styled.div\`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #dfe4ea;
+  width: 100%;
+  height: 100%;
+\`;
+
+const CenteredBox = styled.div\`
+  background: #ff4757;
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+\`;
+
+// Usage: 
+// <Container>
+//   <CenteredBox>I am Centered!</CenteredBox>
+// </Container>`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const container = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: '#dfe4ea',
+  width: '100%',
+  height: '100%'
+});
+
+export const centeredBox = style({
+  background: '#ff4757',
+  color: 'white',
+  padding: '2rem',
+  borderRadius: '8px',
+  fontWeight: 'bold'
+});`
+
   },
   {
     id: 'circular-image',
@@ -95,7 +209,37 @@ export const effects: Effect[] = [
 .preview-container {
   background: #2f3542;
 }`,
-    htmlSnippet: `<img class="preview-image" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="User Profile" />`
+    htmlSnippet: `<img class="preview-image" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="User Profile" />`,
+    tailwindCode: `<img 
+  class="w-36 h-36 object-cover rounded-full border-4 border-white shadow-md" 
+  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+  alt="User Profile" 
+/>`,
+    styledComponentCode: `import styled from 'styled-components';
+
+const CircularImage = styled.img\`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+\`;
+
+// Usage: <CircularImage src="..." alt="..." />`,
+    vanillaExtractCode: `import { style } from '@vanilla-extract/css';
+
+export const circularImage = style({
+  width: '150px',
+  height: '150px',
+  objectFit: 'cover',
+  borderRadius: '50%',
+  border: '4px solid #fff',
+  boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+});
+
+// Usage: <img className={circularImage} src="..." />`
+
   },
   {
     id: 'text-truncation',

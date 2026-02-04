@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
+import { CSSFormat } from '../data/effects';
 
 interface CodeEditorProps {
   code: string;
   onChange: (code: string) => void;
+  format: CSSFormat;
+  onFormatChange: (format: CSSFormat) => void;
+  readOnly?: boolean;
 }
 
-export const CodeEditor: React.FC<CodeEditorProps> = ({ code, onChange }) => {
+export const CodeEditor: React.FC<CodeEditorProps> = ({ 
+  code, 
+  onChange, 
+  format, 
+  onFormatChange,
+  readOnly = false 
+}) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -31,7 +41,28 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ code, onChange }) => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <span>CSS Editor</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <span>CSS Editor</span>
+          <select 
+            value={format} 
+            onChange={(e) => onFormatChange(e.target.value as CSSFormat)}
+            style={{
+              background: '#333',
+              color: '#ddd',
+              border: '1px solid #444',
+              borderRadius: '4px',
+              padding: '2px 8px',
+              fontSize: '0.8rem',
+              outline: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            <option value="pure-css">Pure CSS</option>
+            <option value="tailwind">Tailwind CSS</option>
+            <option value="styled-components">Styled Components</option>
+            <option value="vanilla-extract">Vanilla Extract</option>
+          </select>
+        </div>
         <button
           onClick={handleCopy}
           style={{
@@ -74,13 +105,14 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ code, onChange }) => {
       </div>
       <textarea
         value={code}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => !readOnly && onChange(e.target.value)}
+        readOnly={readOnly}
         spellCheck={false}
         style={{
           flex: 1,
           width: '100%',
-          background: '#1e1e1e',
-          color: '#d4d4d4',
+          background: readOnly ? '#1a1a1a' : '#1e1e1e',
+          color: readOnly ? '#aaa' : '#d4d4d4',
           border: 'none',
           padding: '1rem',
           fontFamily: 'monospace',
